@@ -63,6 +63,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
   var useSupabase = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
 
   // ---- Questions ---------------------------------------------------------
+  // Full pool — a random 10 are picked each time someone starts the quiz.
   var Q = [
     ["🐍 + 👨‍💻", "I'm one of the most beginner-friendly programming languages.", "python"],
     ["☁️ + 💻", "Your files can live here without being stored on your laptop.", "cloud computing"],
@@ -73,7 +74,21 @@ button:disabled{opacity:.4;cursor:not-allowed}
     ["🧠 + ⚡ + 🖥️", "I am the tiny brain that controls many electronic systems.", "microcontroller"],
     ["🌡️ + 📟", "I detect temperature and convert it into a measurable signal.", "temperature sensor"],
     ["🧲 + ⚡ + 📏", "I can sense magnetic fields and am commonly used for position or speed sensing.", "hall effect sensor"],
-    ["📶 + 💻 + 🔗", "I allow devices to exchange data without a physical cable.", "wireless communication"]
+    ["📶 + 💻 + 🔗", "I allow devices to exchange data without a physical cable.", "wireless communication"],
+    ["🔲 + 🧠 + 💻", "I'm a chip that packs an entire circuit onto one piece of silicon.", "integrated circuit"],
+    ["📦 + ➡️ + 📦 + ➡️ + 📦", "I move data in small pieces from sender to receiver across a network.", "packet switching"],
+    ["👆 + 🔢 + 🔐", "I use a unique physical trait to confirm who you are.", "biometric authentication"],
+    ["🔋 + ⚡ + 🔌", "I store electrical energy chemically so devices can run without a wall socket.", "battery"],
+    ["🖥️ + 🕹️ + 🌍", "I create a fully simulated environment you can see and move through.", "virtual reality"],
+    ["🔗 + 📦 + 🔒", "I'm a growing, tamper-resistant chain of records shared across many computers.", "blockchain"],
+    ["🤖 + 💬 + 🧠", "I generate human-like text by predicting the next word.", "large language model"],
+    ["📶 + 🏠 + 🔀", "I let multiple devices in your home share one internet connection.", "router"],
+    ["🖨️ + 🧱 + 📐", "I build physical objects layer by layer from a digital design.", "3d printing"],
+    ["📈 + 🔍 + 💾", "I search through huge amounts of data to find patterns humans would miss.", "data mining"],
+    ["🚗 + 🤖 + 🛣️", "I can drive without a human touching the wheel.", "autonomous vehicle"],
+    ["🖐️ + 🖥️ + 👆", "I let you control a screen just by touching it.", "touchscreen"],
+    ["🌐 + 🕸️ + 🔗", "I'm the system that translates website names into IP addresses.", "dns"],
+    ["🔊 + 🎙️ + 🤖", "I convert your spoken words into text a computer can understand.", "speech recognition"]
   ];
 
   var ALIASES = {
@@ -83,8 +98,28 @@ button:disabled{opacity:.4;cursor:not-allowed}
     "microcontroller": ["microcontroller", "micro controller", "mcu"],
     "temperature sensor": ["temperature sensor", "temp sensor"],
     "hall effect sensor": ["hall effect sensor", "hall sensor"],
-    "wireless communication": ["wireless communication", "wireless"]
+    "wireless communication": ["wireless communication", "wireless"],
+    "integrated circuit": ["integrated circuit", "ic", "chip"],
+    "packet switching": ["packet switching", "packet routing"],
+    "biometric authentication": ["biometric authentication", "biometrics", "biometric"],
+    "virtual reality": ["virtual reality", "vr"],
+    "large language model": ["large language model", "llm", "language model"],
+    "3d printing": ["3d printing", "3d printer", "additive manufacturing"],
+    "data mining": ["data mining", "datamining"],
+    "autonomous vehicle": ["autonomous vehicle", "self driving car", "self-driving car"],
+    "touchscreen": ["touchscreen", "touch screen"],
+    "dns": ["dns", "domain name system"],
+    "speech recognition": ["speech recognition", "voice recognition"]
   };
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
 
   function norm(x) {
     return x.toLowerCase().trim().replace(/[.,!?'"’]/g, "").replace(/\s+/g, " ");
@@ -178,15 +213,18 @@ button:disabled{opacity:.4;cursor:not-allowed}
     };
   }
 
+  var QUIZ_LENGTH = 10;
+
   function runQuiz(name) {
+    var quizQ = shuffle(Q).slice(0, Math.min(QUIZ_LENGTH, Q.length));
     var i = 0, score = 0, totalSeconds = 0, timeLeft = 20, timer = null;
 
     function renderQuestion() {
-      var q = Q[i];
+      var q = quizQ[i];
       shell(
         '<div class="center">' +
-        '<div class="meta"><span>' + esc(name.toUpperCase()) + '</span><span>' + (i + 1) + ' / ' + Q.length + '</span></div>' +
-        '<div class="progress"><i style="width:' + ((i + 1) / Q.length * 100) + '%"></i></div>' +
+        '<div class="meta"><span>' + esc(name.toUpperCase()) + '</span><span>' + (i + 1) + ' / ' + quizQ.length + '</span></div>' +
+        '<div class="progress"><i style="width:' + ((i + 1) / quizQ.length * 100) + '%"></i></div>' +
         '<div class="card question">' +
         '<div class="qtop"><span>DECODE IT</span><span id="time">00:20</span></div>' +
         '<div class="emoji">' + q[0] + '</div>' +
@@ -216,7 +254,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
       clearInterval(timer);
       var ansInput = document.getElementById("ans");
       var ans = ansInput ? ansInput.value : "";
-      var ok = !timeout && isCorrect(ans, Q[i][2]);
+      var ok = !timeout && isCorrect(ans, quizQ[i][2]);
       var pts = ok ? (timeLeft >= 10 ? 15 : 10) : 0;
       score += pts;
       var fb = document.getElementById("fb");
@@ -224,13 +262,13 @@ button:disabled{opacity:.4;cursor:not-allowed}
         fb.className = "feedback " + (ok ? "right" : "wrong");
         fb.textContent = ok
           ? "✓ CORRECT +" + pts
-          : "✕ " + (timeout ? "TIME'S UP" : "NOT QUITE") + " • " + Q[i][2].toUpperCase();
+          : "✕ " + (timeout ? "TIME'S UP" : "NOT QUITE") + " • " + quizQ[i][2].toUpperCase();
       }
       var submitBtn = document.getElementById("submit");
       if (submitBtn) submitBtn.disabled = true;
       setTimeout(function () {
         i++;
-        if (i === Q.length) {
+        if (i === quizQ.length) {
           saveScore({ name: name, score: score, seconds: totalSeconds }).then(function () {
             result(score);
           });
