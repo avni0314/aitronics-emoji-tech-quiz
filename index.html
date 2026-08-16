@@ -1,38 +1,321 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AiTronics • Emoji Tech Quiz</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#070b14;color:#f5f7fb;font-family:Arial,sans-serif}.app{min-height:100vh;padding:22px 5%;background-image:linear-gradient(#152033 1px,transparent 1px),linear-gradient(90deg,#152033 1px,transparent 1px);background-size:48px 48px}.top{display:flex;justify-content:space-between;border-bottom:1px solid #243047;padding-bottom:20px;font:12px monospace;letter-spacing:.12em}.brand:before{content:"";display:inline-block;width:8px;height:8px;background:#b9ff3d;border-radius:50%;margin-right:9px;box-shadow:0 0 15px #b9ff3d}.green{color:#b9ff3d}.center{max-width:720px;margin:70px auto}.card{background:#0a101d;border:1px solid #29364d;border-radius:22px;padding:42px;box-shadow:0 25px 80px #0008}.eyebrow{color:#b9ff3d;font:11px monospace;letter-spacing:.18em;margin-bottom:18px}h1{font-size:clamp(55px,9vw,90px);line-height:.85;letter-spacing:-.07em;margin:0}h1 span{color:#b9ff3d}.copy{color:#9ba8bd;font-size:18px;margin:25px 0}.rules{display:flex;gap:10px;margin:20px 0}.rule{flex:1;background:#0d1524;border:1px solid #26344c;padding:14px;border-radius:12px}.rule b{display:block;font-size:24px}.rule small{color:#71809a}input{width:100%;padding:17px;border-radius:11px;border:1px solid #2a3852;background:#080e19;color:white;font-size:16px;outline:none}input:focus{border-color:#b9ff3d}button{width:100%;margin-top:12px;padding:16px;border:0;border-radius:11px;background:#b9ff3d;color:#081008;font-weight:bold;cursor:pointer}button:disabled{opacity:.4}.link{display:block;text-align:center;color:#8190a7;text-decoration:none;margin-top:17px;font:12px monospace}.meta{display:flex;justify-content:space-between;color:#7c8ba2;font:12px monospace;margin-bottom:15px}.progress{height:3px;background:#182238}.progress i{display:block;height:100%;background:#b9ff3d}.question{margin-top:20px}.qtop{display:flex;justify-content:space-between;color:#b9ff3d;font:12px monospace}.emoji{text-align:center;font-size:75px;margin:55px 0 25px}.clue{text-align:center;font-size:20px;line-height:1.5;color:#d7dde7}.feedback{text-align:center;margin-top:15px;padding:12px;font:12px monospace}.wrong{color:#ff7480}.right{color:#b9ff3d}.score{text-align:center;font-size:105px;color:#b9ff3d;font-weight:bold}.table{border:1px solid #29364d;border-radius:16px;overflow:hidden;margin-top:25px}.row{display:grid;grid-template-columns:90px 1fr 100px;padding:17px;border-top:1px solid #1d2940}.row:first-child{border-top:0}.head{color:#71809a;font:11px monospace;background:#0e1727}.row b{text-align:right;color:#b9ff3d}.qr{text-align:center}.qr img{width:min(400px,80vw);background:white;padding:10px;border-radius:8px;margin:20px auto}.live{color:#b9ff3d;font:12px monospace;text-align:right}
+*{box-sizing:border-box}
+body{margin:0;background:#070b14;color:#f5f7fb;font-family:Arial,sans-serif}
+.app{min-height:100vh;padding:22px 5%;background-image:linear-gradient(#152033 1px,transparent 1px),linear-gradient(90deg,#152033 1px,transparent 1px);background-size:48px 48px}
+.top{display:flex;justify-content:space-between;border-bottom:1px solid #243047;padding-bottom:20px;font:12px monospace;letter-spacing:.12em}
+.brand:before{content:"";display:inline-block;width:8px;height:8px;background:#b9ff3d;border-radius:50%;margin-right:9px;box-shadow:0 0 15px #b9ff3d}
+.green{color:#b9ff3d}
+.center{max-width:720px;margin:70px auto}
+.card{background:#0a101d;border:1px solid #29364d;border-radius:22px;padding:42px;box-shadow:0 25px 80px #0008}
+.eyebrow{color:#b9ff3d;font:11px monospace;letter-spacing:.18em;margin-bottom:18px}
+h1{font-size:clamp(55px,9vw,90px);line-height:.85;letter-spacing:-.07em;margin:0}
+h1 span{color:#b9ff3d}
+.copy{color:#9ba8bd;font-size:18px;margin:25px 0}
+.rules{display:flex;gap:10px;margin:20px 0}
+.rule{flex:1;background:#0d1524;border:1px solid #26344c;padding:14px;border-radius:12px}
+.rule b{display:block;font-size:24px}
+.rule small{color:#71809a}
+input{width:100%;padding:17px;border-radius:11px;border:1px solid #2a3852;background:#080e19;color:white;font-size:16px;outline:none}
+input:focus{border-color:#b9ff3d}
+button{width:100%;margin-top:12px;padding:16px;border:0;border-radius:11px;background:#b9ff3d;color:#081008;font-weight:bold;cursor:pointer;font-size:15px}
+button:disabled{opacity:.4;cursor:not-allowed}
+.link{display:block;text-align:center;color:#8190a7;text-decoration:none;margin-top:17px;font:12px monospace}
+.meta{display:flex;justify-content:space-between;color:#7c8ba2;font:12px monospace;margin-bottom:15px}
+.progress{height:3px;background:#182238;border-radius:3px;overflow:hidden}
+.progress i{display:block;height:100%;background:#b9ff3d;transition:width .3s linear}
+.question{margin-top:20px}
+.qtop{display:flex;justify-content:space-between;color:#b9ff3d;font:12px monospace}
+.emoji{text-align:center;font-size:75px;margin:55px 0 25px}
+.clue{text-align:center;font-size:20px;line-height:1.5;color:#d7dde7}
+.feedback{text-align:center;margin-top:15px;padding:12px;font:12px monospace}
+.wrong{color:#ff7480}
+.right{color:#b9ff3d}
+.score{text-align:center;font-size:105px;color:#b9ff3d;font-weight:bold}
+.table{border:1px solid #29364d;border-radius:16px;overflow:hidden;margin-top:25px}
+.row{display:grid;grid-template-columns:90px 1fr 100px;padding:17px;border-top:1px solid #1d2940}
+.row:first-child{border-top:0}
+.head{color:#71809a;font:11px monospace;background:#0e1727}
+.row b{text-align:right;color:#b9ff3d}
+.qr{text-align:center}
+.qr img{width:min(400px,80vw);background:white;padding:10px;border-radius:8px;margin:20px auto}
+.live{color:#b9ff3d;font:12px monospace;text-align:right}
+.err{color:#ff7480;font:12px monospace;text-align:center;margin-top:10px}
 </style>
 </head>
-<body><div id="app"></div>
+<body>
+<div id="app">Loading…</div>
+
 <script>
-const Q=[
-["🐍 + 👨‍💻","I'm one of the most beginner-friendly programming languages.","python"],
-["☁️ + 💻","Your files can live here without being stored on your laptop.","cloud computing"],
-["📷 + 🤖 + 👁️","I help machines understand what they see.","computer vision"],
-["📡 + 📱 + 🌐","I connect everyday devices so they can communicate over the internet.","internet of things"],
-["🧠 + 📊 + 🤖","I let computers learn patterns from data.","machine learning"],
-["🔐 + 🔑 + 💻","I protect information by turning it into a form outsiders cannot easily read.","encryption"],
-["🧠 + ⚡ + 🖥️","I am the tiny brain that controls many electronic systems.","microcontroller"],
-["🌡️ + 📟","I detect temperature and convert it into a measurable signal.","temperature sensor"],
-["🧲 + ⚡ + 📏","I can sense magnetic fields and are commonly used for position or speed sensing.","hall effect sensor"],
-["📶 + 💻 + 🔗","I allow devices to exchange data without a physical cable.","wireless communication"]
-];
-const aliases={"cloud computing":["cloud","cloud computing"],"internet of things":["internet of things","iot"],"machine learning":["machine learning","ml"],"microcontroller":["microcontroller","micro controller","mcu"],"temperature sensor":["temperature sensor","temp sensor"],"hall effect sensor":["hall effect sensor","hall sensor"],"wireless communication":["wireless communication","wireless"]};
-const norm=x=>x.toLowerCase().trim().replace(/[.,!?'"’]/g,"").replace(/\s+/g," ");
-function correct(x,a){x=norm(x);return x===a||(aliases[a]||[]).includes(x)}
-const key="aitronics-scores";
-function scores(){return JSON.parse(localStorage.getItem(key)||"[]").sort((a,b)=>b.score-a.score||a.seconds-b.seconds)}
-function save(x){let a=scores();a.push(x);localStorage.setItem(key,JSON.stringify(a.slice(0,100)))}
-function shell(body){document.getElementById("app").innerHTML=`<div class="app"><div class="top"><span class="brand">AITRONICS</span><span>EMOJI TECH QUIZ</span></div>${body}</div>`}
-function home(){shell(`<div class="center"><div class="card"><div class="eyebrow">HELPDESK CHALLENGE / 01</div><h1>DECODE<br><span>THE TECH.</span></h1><p class="copy">Scan. Think. Type the answer. Climb the leaderboard.</p><div class="rules"><div class="rule"><b>10</b><small>QUESTIONS</small></div><div class="rule"><b>20s</b><small>PER QUESTION</small></div><div class="rule"><b>15</b><small>SPEED BONUS</small></div></div><input id="name" maxlength="24" placeholder="Enter your name"><button id="start">START QUIZ →</button><a class="link" href="/leaderboard">VIEW LEADERBOARD</a></div></div>`);document.getElementById("start").onclick=()=>{let n=document.getElementById("name").value.trim();if(n)quiz(n)}}
-function quiz(name){let i=0,score=0,total=0,time=20,timer;function render(){let q=Q[i];shell(`<div class="center"><div class="meta"><span>${name.toUpperCase()}</span><span>${i+1} / ${Q.length}</span></div><div class="progress"><i style="width:${(i+1)/Q.length*100}%"></i></div><div class="card question"><div class="qtop"><span>DECODE IT</span><span id="time">00:20</span></div><div class="emoji">${q[0]}</div><p class="clue">“${q[1]}”</p><input id="ans" autofocus placeholder="Type your answer..."><button id="submit">SUBMIT ↗</button><div id="fb"></div></div></div>`);time=20;clearInterval(timer);timer=setInterval(()=>{total++;time--;document.getElementById("time").textContent="00:"+String(time).padStart(2,"0");if(time<=0)submit(true)},1000);document.getElementById("submit").onclick=()=>submit(false);document.getElementById("ans").onkeydown=e=>{if(e.key==="Enter")submit(false)}}
-function submit(timeout){clearInterval(timer);let ans=document.getElementById("ans").value,ok=!timeout&&correct(ans,Q[i][2]),pts=ok?(time>=10?15:10):0;score+=pts;document.getElementById("fb").className="feedback "+(ok?"right":"wrong");document.getElementById("fb").textContent=ok?"✓ CORRECT +"+pts:"✕ "+(timeout?"TIME'S UP":"NOT QUITE")+" • "+Q[i][2];setTimeout(()=>{i++;if(i===Q.length){save({name,score,seconds:total});result()}else render()},850)}
-function result(){shell(`<div class="center"><div class="card" style="text-align:center"><div class="eyebrow">QUIZ COMPLETE</div><div class="score">${score}</div><p>POINTS</p><button onclick="location.href='/leaderboard'">SEE LEADERBOARD →</button><a class="link" href="/">PLAY AGAIN</a></div></div>`)}
-function board(){function draw(){let a=scores();shell(`<div class="center"><div class="eyebrow">LIVE / HELP DESK</div><h1 style="font-size:65px">LEADERBOARD</h1><div class="table"><div class="row head"><span>RANK</span><span>NAME</span><span>SCORE</span></div>${a.length?a.map((x,i)=>`<div class="row"><span>${i<3?["🥇","🥈","🥉"][i]:i+1}</span><span>${x.name}</span><b>${x.score}</b></div>`).join(""):`<div style="padding:40px;text-align:center;color:#71809a">No scores yet.</div>`}</div><a class="link" href="/">← BACK TO QUIZ</a></div>`)}draw();setInterval(draw,3000)}
-function qr(){let url=location.origin+"/";shell(`<div class="center"><div class="card qr"><div class="eyebrow">AITRONICS</div><h1 style="font-size:65px">SCAN TO<br><span>PLAY</span></h1><img src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(url)}"><p>Scan with your phone camera.</p><button onclick="print()">PRINT QR POSTER</button></div></div>`)}
-if(location.pathname==="/leaderboard")board();else if(location.pathname==="/qr")qr();else home();
-</script></body></html>
+(function () {
+  "use strict";
+
+  // ---- OPTIONAL: shared leaderboard via Supabase -----------------------
+  // Leave these blank to use localStorage only (works great for a single
+  // Helpdesk laptop). Fill both in to sync scores from every phone.
+  var SUPABASE_URL = "";
+  var SUPABASE_ANON_KEY = "";
+  var useSupabase = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
+
+  // ---- Questions ---------------------------------------------------------
+  var Q = [
+    ["🐍 + 👨‍💻", "I'm one of the most beginner-friendly programming languages.", "python"],
+    ["☁️ + 💻", "Your files can live here without being stored on your laptop.", "cloud computing"],
+    ["📷 + 🤖 + 👁️", "I help machines understand what they see.", "computer vision"],
+    ["📡 + 📱 + 🌐", "I connect everyday devices so they can communicate over the internet.", "internet of things"],
+    ["🧠 + 📊 + 🤖", "I let computers learn patterns from data.", "machine learning"],
+    ["🔐 + 🔑 + 💻", "I protect information by turning it into a form outsiders cannot easily read.", "encryption"],
+    ["🧠 + ⚡ + 🖥️", "I am the tiny brain that controls many electronic systems.", "microcontroller"],
+    ["🌡️ + 📟", "I detect temperature and convert it into a measurable signal.", "temperature sensor"],
+    ["🧲 + ⚡ + 📏", "I can sense magnetic fields and am commonly used for position or speed sensing.", "hall effect sensor"],
+    ["📶 + 💻 + 🔗", "I allow devices to exchange data without a physical cable.", "wireless communication"]
+  ];
+
+  var ALIASES = {
+    "cloud computing": ["cloud", "cloud computing"],
+    "internet of things": ["internet of things", "iot"],
+    "machine learning": ["machine learning", "ml"],
+    "microcontroller": ["microcontroller", "micro controller", "mcu"],
+    "temperature sensor": ["temperature sensor", "temp sensor"],
+    "hall effect sensor": ["hall effect sensor", "hall sensor"],
+    "wireless communication": ["wireless communication", "wireless"]
+  };
+
+  function norm(x) {
+    return x.toLowerCase().trim().replace(/[.,!?'"’]/g, "").replace(/\s+/g, " ");
+  }
+  function isCorrect(x, a) {
+    x = norm(x);
+    return x === a || (ALIASES[a] || []).includes(x);
+  }
+
+  // ---- Score storage -------------------------------------------------
+  var LOCAL_KEY = "aitronics-scores";
+
+  function localScores() {
+    try {
+      var a = JSON.parse(localStorage.getItem(LOCAL_KEY) || "[]");
+      return a.sort(function (a, b) { return b.score - a.score || a.seconds - b.seconds; });
+    } catch (e) {
+      return [];
+    }
+  }
+  function localSave(entry) {
+    var a = localScores();
+    a.push(entry);
+    localStorage.setItem(LOCAL_KEY, JSON.stringify(a.slice(0, 200)));
+  }
+
+  function saveScore(entry) {
+    if (!useSupabase) { localSave(entry); return Promise.resolve(); }
+    return fetch(SUPABASE_URL + "/rest/v1/scores", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({ name: entry.name, score: entry.score, seconds: entry.seconds })
+    }).catch(function () { localSave(entry); }); // fall back if the request fails
+  }
+
+  function fetchScores() {
+    if (!useSupabase) return Promise.resolve(localScores());
+    return fetch(SUPABASE_URL + "/rest/v1/scores?select=name,score,seconds&order=score.desc,seconds.asc&limit=100", {
+      headers: {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + SUPABASE_ANON_KEY
+      }
+    }).then(function (r) {
+      if (!r.ok) throw new Error("bad response");
+      return r.json();
+    }).catch(function () { return localScores(); });
+  }
+
+  // ---- Rendering -------------------------------------------------------
+  var appEl = document.getElementById("app");
+
+  function shell(body) {
+    appEl.innerHTML =
+      '<div class="app"><div class="top"><span class="brand">AITRONICS</span>' +
+      '<span>EMOJI TECH QUIZ</span></div>' + body + '</div>';
+  }
+
+  function go(path) {
+    history.pushState({}, "", path);
+    route();
+  }
+
+  function home() {
+    shell(
+      '<div class="center"><div class="card">' +
+      '<div class="eyebrow">HELPDESK CHALLENGE / 01</div>' +
+      '<h1>DECODE<br><span>THE TECH.</span></h1>' +
+      '<p class="copy">Scan. Think. Type the answer. Climb the leaderboard.</p>' +
+      '<div class="rules">' +
+      '<div class="rule"><b>10</b><small>QUESTIONS</small></div>' +
+      '<div class="rule"><b>20s</b><small>PER QUESTION</small></div>' +
+      '<div class="rule"><b>15</b><small>SPEED BONUS</small></div>' +
+      '</div>' +
+      '<input id="name" maxlength="24" placeholder="Enter your name">' +
+      '<button id="start">START QUIZ →</button>' +
+      '<a class="link" href="/leaderboard" id="lbLink">VIEW LEADERBOARD</a>' +
+      '</div></div>'
+    );
+    document.getElementById("lbLink").onclick = function (e) { e.preventDefault(); go("/leaderboard"); };
+    document.getElementById("start").onclick = function () {
+      var n = document.getElementById("name").value.trim();
+      if (n) runQuiz(n);
+    };
+    document.getElementById("name").onkeydown = function (e) {
+      if (e.key === "Enter") document.getElementById("start").click();
+    };
+  }
+
+  function runQuiz(name) {
+    var i = 0, score = 0, totalSeconds = 0, timeLeft = 20, timer = null;
+
+    function renderQuestion() {
+      var q = Q[i];
+      shell(
+        '<div class="center">' +
+        '<div class="meta"><span>' + esc(name.toUpperCase()) + '</span><span>' + (i + 1) + ' / ' + Q.length + '</span></div>' +
+        '<div class="progress"><i style="width:' + ((i + 1) / Q.length * 100) + '%"></i></div>' +
+        '<div class="card question">' +
+        '<div class="qtop"><span>DECODE IT</span><span id="time">00:20</span></div>' +
+        '<div class="emoji">' + q[0] + '</div>' +
+        '<p class="clue">\u201C' + esc(q[1]) + '\u201D</p>' +
+        '<input id="ans" autocomplete="off" placeholder="Type your answer...">' +
+        '<button id="submit">SUBMIT ↗</button>' +
+        '<div id="fb"></div>' +
+        '</div></div>'
+      );
+      document.getElementById("ans").focus();
+      timeLeft = 20;
+      clearInterval(timer);
+      timer = setInterval(function () {
+        totalSeconds++;
+        timeLeft--;
+        var t = document.getElementById("time");
+        if (t) t.textContent = "00:" + String(Math.max(timeLeft, 0)).padStart(2, "0");
+        if (timeLeft <= 0) submit(true);
+      }, 1000);
+      document.getElementById("submit").onclick = function () { submit(false); };
+      document.getElementById("ans").onkeydown = function (e) {
+        if (e.key === "Enter") submit(false);
+      };
+    }
+
+    function submit(timeout) {
+      clearInterval(timer);
+      var ansInput = document.getElementById("ans");
+      var ans = ansInput ? ansInput.value : "";
+      var ok = !timeout && isCorrect(ans, Q[i][2]);
+      var pts = ok ? (timeLeft >= 10 ? 15 : 10) : 0;
+      score += pts;
+      var fb = document.getElementById("fb");
+      if (fb) {
+        fb.className = "feedback " + (ok ? "right" : "wrong");
+        fb.textContent = ok
+          ? "✓ CORRECT +" + pts
+          : "✕ " + (timeout ? "TIME'S UP" : "NOT QUITE") + " • " + Q[i][2].toUpperCase();
+      }
+      var submitBtn = document.getElementById("submit");
+      if (submitBtn) submitBtn.disabled = true;
+      setTimeout(function () {
+        i++;
+        if (i === Q.length) {
+          saveScore({ name: name, score: score, seconds: totalSeconds }).then(function () {
+            result(score);
+          });
+        } else {
+          renderQuestion();
+        }
+      }, 850);
+    }
+
+    renderQuestion();
+  }
+
+  function result(score) {
+    shell(
+      '<div class="center"><div class="card" style="text-align:center">' +
+      '<div class="eyebrow">QUIZ COMPLETE</div>' +
+      '<div class="score">' + score + '</div><p>POINTS</p>' +
+      '<button id="toLb">SEE LEADERBOARD →</button>' +
+      '<a class="link" href="/" id="again">PLAY AGAIN</a>' +
+      '</div></div>'
+    );
+    document.getElementById("toLb").onclick = function () { go("/leaderboard"); };
+    document.getElementById("again").onclick = function (e) { e.preventDefault(); go("/"); };
+  }
+
+  var boardInterval = null;
+
+  function board() {
+    clearInterval(boardInterval);
+    function draw() {
+      fetchScores().then(function (a) {
+        shell(
+          '<div class="center">' +
+          '<div class="eyebrow">LIVE / HELP DESK</div>' +
+          '<h1 style="font-size:65px">LEADERBOARD</h1>' +
+          '<div class="table">' +
+          '<div class="row head"><span>RANK</span><span>NAME</span><span>SCORE</span></div>' +
+          (a.length
+            ? a.map(function (x, idx) {
+                var medal = idx < 3 ? ["🥇", "🥈", "🥉"][idx] : (idx + 1);
+                return '<div class="row"><span>' + medal + '</span><span>' + esc(x.name) + '</span><b>' + x.score + '</b></div>';
+              }).join("")
+            : '<div style="padding:40px;text-align:center;color:#71809a">No scores yet.</div>') +
+          '</div>' +
+          '<a class="link" href="/" id="back">← BACK TO QUIZ</a>' +
+          '</div>'
+        );
+        var back = document.getElementById("back");
+        if (back) back.onclick = function (e) { e.preventDefault(); go("/"); };
+      });
+    }
+    draw();
+    boardInterval = setInterval(draw, 3000);
+  }
+
+  function qr() {
+    var url = location.origin + "/";
+    shell(
+      '<div class="center"><div class="card qr">' +
+      '<div class="eyebrow">AITRONICS</div>' +
+      '<h1 style="font-size:65px">SCAN TO<br><span>PLAY</span></h1>' +
+      '<img src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=' + encodeURIComponent(url) + '" alt="QR code to play">' +
+      '<p>Scan with your phone camera.</p>' +
+      '<button onclick="window.print()">PRINT QR POSTER</button>' +
+      '</div></div>'
+    );
+  }
+
+  function esc(s) {
+    var d = document.createElement("div");
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function route() {
+    clearInterval(boardInterval);
+    var path = location.pathname.replace(/\/+$/, "") || "/";
+    if (path === "/leaderboard") board();
+    else if (path === "/qr") qr();
+    else home();
+  }
+
+  window.addEventListener("popstate", route);
+  route();
+})();
+</script>
+</body>
+</html>
